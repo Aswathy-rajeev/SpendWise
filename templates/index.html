@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SpendWise</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>SpendWise 💸</h1>
+<p>Smartly track your expenses and build better financial habits 💡</p>
+
+<!-- Budget Form -->
+<form action="/set_budget" method="POST">
+    <input type="number" name="budget" placeholder="Set Budget" required>
+    <button type="submit">Set Budget</button>
+</form>
+
+<h3>Current Budget: ₹ {{ budget }}</h3>
+
+<!-- Expense Form -->
+<form action="/add" method="POST">
+    <input type="text" name="name" placeholder="Expense Name" required>
+    <input type="number" name="amount" placeholder="Amount" required>
+
+    <select name="category">
+        <option>Food</option>
+        <option>Travel</option>
+        <option>Shopping</option>
+        <option>Entertainment</option>
+        <option>Education</option>
+        <option>Health</option>
+        <option>Others</option>
+    </select>
+
+    <button type="submit">Add Expense</button>
+</form>
+
+<h2>Total: ₹ {{ total }}</h2>
+
+<p>Track smarter. Save better. Build financial discipline 🚀</p>
+
+{% if warning %}
+    <p class="warning">⚠ You exceeded your budget!</p>
+{% endif %}
+
+{% if suggestion %}
+    <p class="suggestion">💡 {{ suggestion }}</p>
+{% endif %}
+
+<ul>
+    {% for e in expenses %}
+        <li>
+            <strong>{{ e.name }}</strong> - ₹{{ e.amount }}
+            <span style="color:gray;">({{ e.category }})</span>
+            <a href="/delete/{{ loop.index0 }}" class="delete-btn">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+
+</div>
+
+</body>
+</html>
